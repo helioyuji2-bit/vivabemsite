@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VivaBem+(beta)</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #dfe6e9;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+    }
+
+    .phone {
+      width: 375px;
+      height: 700px;
+      background: #f9f9f9;
+      border-radius: 30px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    header {
+      background: #117768;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .content {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #fb260a;
+      font-style: oblique;
+      font-size: larger;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #117768;
+      font-style: italic;
+    }
+
+    #sos .card {
+      width: 300px;
+      padding: 20px;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      background: white;
+      margin-top: 80px;
+    }
+
+    .btn-sos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 30vh;
+    }
+
+    .remedio {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-left: auto;
+    }
+
+
+    .remedio, .profissional {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .remedio:last-child, .profissional:last-child {
+      border-bottom: none;
+    }
+
+    .btn-ok {
+      background: #43a047;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    .btn-remove {
+      background: #fb0b0b;
+    }
+
+    .btn-ok:hover { background: #2e7d32; }
+    .btn-remove:hover { background: #b71c1c; }
+
+    .btn-sos {
+      display: block;
+      width: 100%;
+      background: #e53935;
+      color: white;
+      padding: 15px;
+      border: none;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .bnt-tomado {
+      background: #43a047; /* verde */
+      color: rgb(21, 255, 0);
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-left: 5px; 
+      transition: background 0.2s;
+    }
+
+    .btn-tomado:hover {
+  background: #1ed427; /* verde mais escuro no hover */
+}
+
+    .remedio:hover .btn-tomado{
+  background: #2e7d32; /* verde mais escuro no hover */
+  color: white;
+}
+
+
+  .btn-tomado.confirmed {
+  background: #137905; /* cinza para indicar já tomado */
+  color: white;
+  cursor: default;
+}  
+
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background: #117768;
+      padding: 10px 0;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    nav button span { font-size: 12px; }
+    .icon { font-size: 20px; }
+
+    @media (max-width: 400px) {
+      .phone { width: 100%; height: 100vh; border-radius: 0; }
+    }
+
+    .input-group {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    .input-group input {
+      flex: 1;
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-right: 5px;
+    }
+
+    .input-group button {
+      flex-shrink: 0;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+      background: #117768;
+      color: white;
+      cursor: pointer;
+    }
+
+    .input-group input[type="text"] {
+      flex: 1;
+      min-width: 0;
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    
+    .input-group button:hover {
+      background: #0d594d;
+    }
+
+
+  </style>
+</head>
+<body>
+
+  <div class="phone">
+    <header>VivaBem+</header>
+
+    <div class="content">
+      <!-- Agenda -->
+      <div id="agenda" class="section">
+        <div class="card">
+          <h2>Remédios </h2>
+          <div id="remedios-list"></div>
+          <div class="input-group">
+            <input type="time" id="horaRemedio">
+            <input type="text" id="nomeRemedio" placeholder="Ex: Vitamina C">
+          <button onclick="addRemedio()">Adicionar</button>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <!-- Suporte -->
+      <div id="suporte" class="section" style="display:none;">
+        <div class="card">
+          <h2>Profissionais da saúde</h2>
+          <div id="suporte-list"></div>
+          <div class="input-group">
+            <input type="text" id="novoSuporte" placeholder="Nome - Função - Telefone">
+            <button onclick="addSuporte()">Adicionar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOS -->
+      <div id="sos" class="section" style="display:none;">
+        <div class="card">
+          <h3>Mensagem SOS</h3>
+          <p>Mantenha o botão abaixo pressionado para enviar um alerta imediato aos familiares cadastrados.</p>
+          <button class="btn-sos">🚨 Enviar SOS</button>
+        </div>
+      </div>
+    </div>
+
+    <nav>
+      <button onclick="showSection('agenda')">
+        <div class="icon">📅</div>
+        <span>Agenda</span>
+      </button>
+      <button onclick="showSection('suporte')">
+        <div class="icon">👨‍⚕️</div>
+        <span>Suporte</span>
+      </button>
+      <button onclick="showSection('sos')">
+        <div class="icon">🚨</div>
+        <span>SOS</span>
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    // "Banco de dados" local
+    let remedios = JSON.parse(localStorage.getItem("remedios")) || [
+      { hora: "8:00", nome: "Vitamina C"},
+      { hora: "12:00", nome: "Antibiótico"},
+      { hora: "18:00", nome: "Anti-hipertensivo"}      
+    ];
+
+    let suporte = JSON.parse(localStorage.getItem("suporte")) || [
+      "Dr. João Silva - Clínico Geral - (11) 99999-1111",
+      "Enf. Maria Souza - Enfermagem - (11) 98888-2222",
+      "Dra. Carla Lima - Cardiologista - (11) 97777-3333"
+    ];
+
+    function renderRemedios() {
+      const lista = document.getElementById("remedios-list");
+      lista.innerHTML = "";
+
+      remedios.forEach((r, i) => {
+         const tomado = r.nome.includes("✅");
+         
+         const confirmado = String(r.nome).startsWith("✅ ");
+         const containerClass = `remedio ${confirmado ? 'tomado' : ''}`;
+         const btnTomadoClass = `btn-tomado${confirmado ? ' confirmed' : ''}`;
+
+        
+        
+        lista.innerHTML += `
+          <div class="${containerClass}"
+            <span><b>${r.hora}</b> - ${r.nome}</span>
+            <div>
+              <button class="btn-tomado" onclick="tomarRemedio(${i})">Tomado</button>
+              <button class="btn-remove" onclick="removeRemedio(${i})">X</button>
+            </div>
+          </div>`;
+      });
+    }
+
+    function renderSuporte() {
+      const lista = document.getElementById("suporte-list");
+      lista.innerHTML = "";
+      suporte.forEach((s, i) => {
+        lista.innerHTML += `
+          <div class="profissional">
+            <span>${s}</span>
+            <button class="btn-remove" onclick="removeSuporte(${i})">X</button>
+          </div>`;
+      });
+    }
+
+    function addRemedio() {
+      const hora = document.getElementById("horaRemedio").value;
+      const nome = document.getElementById("nomeRemedio").value.trim();
+
+      if (hora && nome) {
+         remedios.push({ hora, nome });
+         localStorage.setItem("remedios", JSON.stringify(remedios));
+       renderRemedios();
+        
+         document.getElementById("horaRemedio").value = "";
+         document.getElementById("nomeRemedio").value = "";
+  }
+}
+
+
+
+    function removeRemedio(index) {
+      remedios.splice(index, 1);
+      localStorage.setItem("remedios", JSON.stringify(remedios));
+      renderRemedios();
+}
+
+  function tomarRemedio(index) {
+    
+    remedios[index]. tomado = !remedios[index]. tomado; 
+    remedios[index]. nome = remedios[index]. nome.replace(/\s*✅$/, "");
+
+    if (remedios[index]. tomado) {
+      remedios[index]. nome += "✅";
+    }
+      
+  
+    localStorage.setItem("remedios", JSON.stringify(remedios));
+    renderRemedios();
+  }
+
+
+    function addSuporte() {
+      const novo = document.getElementById("novoSuporte").value.trim();
+      if (novo) {
+        suporte.push(novo);
+        localStorage.setItem("suporte", JSON.stringify(suporte));
+        renderSuporte();
+        document.getElementById("novoSuporte").value = "";
+      }
+    }
+
+    function removeSuporte(index) {
+      suporte.splice(index, 1);
+      localStorage.setItem("suporte", JSON.stringify(suporte));
+      renderSuporte();
+    }
+
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+    }
+
+    // Inicializa listas
+    renderRemedios();
+    renderSuporte();
+  </script>
+
+</body>
+</html>
