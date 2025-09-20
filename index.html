@@ -23,7 +23,7 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.3);
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      overflow-y: auto;
     }
 
     header {
@@ -79,6 +79,7 @@
       min-height: 30vh;
     }
 
+  
     .remedio {
       display: flex;
       justify-content: space-between;
@@ -223,6 +224,7 @@
 
   <div class="phone">
     <header>VivaBem+</header>
+    
 
     <div class="content">
       <!-- Agenda -->
@@ -262,6 +264,41 @@
       </div>
     </div>
 
+    <div id="Premium" class="selection" style="display:none;">
+      <section id="planos" style="padding:20px 20px 60px 20px; background:#f9f9f9; text-align:center;">
+        <h2 style="font-size:2rem; margin-bottom:40px; font-style: oblique;">Nossos Planos</h2>
+        <div style="display:flex; justify-content:center; gap:30px; flex-wrap:wrap;">
+      
+          <!-- Plano Gratuito -->
+          <div style="background:#fff; border-radius:16px; padding:30px; width:280px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+            <h3 style="font-size:1.5rem; margin-bottom:10px;">Gratuito</h3>
+            <p style="font-size:2rem; font-weight:bold; margin-bottom:20px;">R$ 0</p>
+            <ul style="list-style:none; padding:0; margin:0 0 20px 0; text-align:left;">
+              <li>✔ Lembretes de medicamentos</li>
+              <li>✔ Agenda de consultas</li>
+              <li>✔ Acesso básico ao app</li>
+            </ul>
+            <a href="#download" style="display:inline-block; background:#ccc; color:#000; padding:12px 20px; border-radius:8px; text-decoration:none; font-weight:bold;">Usar grátis</a>
+          </div>
+      
+          <!-- Plano Premium -->
+          <div style="background:#fff; border-radius:16px; padding:30px; width:280px; box-shadow:0 4px 12px rgba(0,0,0,0.1); border:2px solid #4CAF50;">
+            <h3 style="font-size:1.5rem; margin-bottom:10px; color:#4CAF50;">Premium</h3>
+            <p style="font-size:2rem; font-weight:bold; margin-bottom:20px; color:#4CAF50;">R$ 49,90/mês</p>
+            <ul style="list-style:none; padding:0; margin:0 0 20px 0; text-align:left;">
+              <li>✔ Tudo do plano gratuito</li>
+              <li>✔ Médicos 24h disponíveis</li>
+              <li>✔ Consultas online ilimitadas</li>
+              <li>✔ Suporte prioritário</li>
+            </ul>
+            <a href="premium.html" style="display:inline-block; background:#4CAF50; color:#fff; padding:12px 20px; border-radius:8px; text-decoration:none; font-weight:bold; transition:0.3s;">Assinar Premium</a>
+          </div>
+      
+        </div>
+      </section>
+      </div>
+    
+
     <nav>
       <button onclick="showSection('agenda')">
         <div class="icon">📅</div>
@@ -274,6 +311,10 @@
       <button onclick="showSection('sos')">
         <div class="icon">🚨</div>
         <span>SOS</span>
+      </button>
+      <button onclick="showSection('Premium')">
+        <div class="icon">👑</div>
+        <span>Premium</span>
       </button>
     </nav>
   </div>
@@ -390,6 +431,9 @@
     renderRemedios();
     renderSuporte();
   </script>
+
+
+
 
 </body>
 </html>
